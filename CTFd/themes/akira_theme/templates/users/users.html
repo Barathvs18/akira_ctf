@@ -1,0 +1,277 @@
+{% extends "base.html" %}
+
+{% block stylesheets %}
+<style>
+	/* ================================
+   Users Page – Japanese Glass Theme
+   ================================ */
+
+	/* Header */
+	.jumbotron {
+		background: transparent;
+		padding-top: 90px;
+		padding-bottom: 40px;
+	}
+
+	.jumbotron h1 {
+		font-family: 'Abril Fatface', serif;
+		letter-spacing: 0.08em;
+		color: #f8fafc;
+		text-align: center;
+	}
+
+	/* Search info text */
+	.text-muted {
+		color: #9ca3af !important;
+	}
+
+	/* Search form */
+	.form-inline {
+		background: rgba(15, 15, 25, 0.65);
+		backdrop-filter: blur(16px) saturate(150%);
+		-webkit-backdrop-filter: blur(16px) saturate(150%);
+		border-radius: 18px;
+		border: 1px solid rgba(255, 255, 255, 0.12);
+		box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7);
+		padding: 18px;
+		margin-bottom: 30px;
+	}
+
+	/* Inputs */
+	.form-control,
+	.custom-select {
+		background: rgba(20, 20, 30, 0.75);
+		border: 1px solid rgba(255, 255, 255, 0.15);
+		color: #f8fafc;
+	}
+
+	.form-control::placeholder {
+		color: #9ca3af;
+	}
+
+	.form-control:focus,
+	.custom-select:focus {
+		background: rgba(20, 20, 30, 0.9);
+		border-color: #ff6f91;
+		box-shadow: 0 0 0 0.15rem rgba(255, 111, 145, 0.25);
+		color: #fff;
+	}
+
+	/* Search button */
+	.btn-primary {
+		background: rgba(255, 111, 145, 0.25) !important;
+		border: 1px solid rgba(255, 111, 145, 0.45) !important;
+		color: #fff !important;
+		backdrop-filter: blur(10px);
+		transition: all 0.25s ease;
+	}
+
+	.btn-primary:hover {
+		background: rgba(255, 111, 145, 0.45) !important;
+		box-shadow: 0 0 18px rgba(255, 111, 145, 0.6);
+	}
+
+	/* Divider */
+	hr {
+		border-color: rgba(255, 255, 255, 0.12);
+	}
+
+	/* Users table */
+	.table {
+		background: rgba(15, 15, 25, 0.65);
+		backdrop-filter: blur(16px);
+		border-radius: 18px;
+		overflow: hidden;
+		color: #e5e7eb;
+	}
+
+	/* Table header */
+	.table thead {
+		background: rgba(255, 255, 255, 0.06);
+	}
+
+	.table thead td {
+		color: #f8fafc;
+		font-weight: 600;
+	}
+
+	/* Table rows */
+	.table-striped tbody tr:nth-of-type(odd) {
+		background: rgba(255, 255, 255, 0.03);
+	}
+
+	.table td {
+		border-color: rgba(255, 255, 255, 0.08);
+	}
+
+	/* Links */
+	.table a {
+		color: #ff6f91;
+		transition: all 0.2s ease;
+	}
+
+	.table a:hover {
+		text-decoration: none;
+		text-shadow: 0 0 10px rgba(255, 111, 145, 0.6);
+	}
+
+	/* Official badge */
+	.badge-primary {
+		background: rgba(255, 111, 145, 0.25) !important;
+		border: 1px solid rgba(255, 111, 145, 0.45);
+	}
+
+	/* External link icon */
+	.fa-external-link-alt {
+		color: #ff6f91;
+		transition: transform 0.2s ease, text-shadow 0.2s ease;
+	}
+
+	.fa-external-link-alt:hover {
+		transform: translateY(-2px);
+		text-shadow: 0 0 14px rgba(255, 111, 145, 0.6);
+	}
+
+	/* Pagination */
+	.page-select {
+		background: rgba(20, 20, 30, 0.8);
+		color: #fff;
+		border: 1px solid rgba(255, 255, 255, 0.15);
+		border-radius: 8px;
+		padding: 6px 10px;
+	}
+
+	.page-select:focus {
+		outline: none;
+		border-color: #ff6f91;
+	}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="jumbotron">
+	<div class="container">
+		<h1>Users</h1>
+	</div>
+</div>
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			{% if q and field %}
+			<h5 class="text-muted text-center">
+				Searching for users with <strong>{{ field }}</strong> matching <strong>{{ q }}</strong>
+			</h5>
+			<h6 class="text-muted text-center pb-3">
+				Page {{ users.page }} of {{ users.total }} results
+			</h6>
+			{% endif %}
+
+			{% with form = Forms.users.PublicUserSearchForm(field=field, q=q) %}
+			<form method="GET" class="form-inline">
+				<div class="form-group col-md-2">
+					{{ form.field(class="form-control custom-select w-100") }}
+				</div>
+				<div class="form-group col-md-8">
+					{{ form.q(class="form-control w-100", placeholder="Search for matching users") }}
+				</div>
+				<div class="form-group col-md-2">
+					<button type="submit" class="btn btn-primary w-100">
+						<i class="fas fa-search" aria-hidden="true"></i>
+					</button>
+				</div>
+			</form>
+			{% endwith %}
+		</div>
+	</div>
+
+	<hr>
+
+	<div class="row">
+		<div class="col-md-12">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<td><b>User</b></td>
+						<td><b>Website</b></td>
+						<td class="d-none d-md-table-cell d-lg-table-cell"><b>Affiliation</b></td>
+						<td class="d-none d-md-table-cell d-lg-table-cell"><b>Country</b></td>
+					</tr>
+				</thead>
+				<tbody>
+					{% for user in users.items %}
+					<tr>
+						<td>
+							{% if scores_visible() %}
+							<a href="{{ url_for('users.public', user_id=user.id) }}">
+								{{ user.name | truncate(50) }}
+							</a>
+							{% else %}
+							<span>{{ user.name | truncate(50) }}</span>
+							{% endif %}
+							{% if user.oauth_id %}
+							<a href="https://majorleaguecyber.org/u/{{ user.name }}">
+								<span class="badge badge-primary">Official</span>
+							</a>
+							{% endif %}
+						</td>
+						<td class="text-center" style="width: 10px;">
+							{% if user.website and (user.website.startswith('http://') or
+							user.website.startswith('https://')) %}
+							<a href="{{ user.website }}" target="_blank" rel="noopener">
+								<i class="fas fa-external-link-alt" data-toggle="tooltip" data-placement="top"
+									title="{{ user.website }}"></i>
+							</a>
+							{% endif %}
+						</td>
+						<td class="d-none d-md-table-cell d-lg-table-cell">
+							{% if user.affiliation %}
+							{% if user.affiliation | length > 50 %}
+							<span data-toggle="tooltip" data-placement="top" title="{{ user.affiliation }}">
+								{% if user.affiliation %}{{ user.affiliation | truncate(50) }}{% endif %}
+							</span>
+							{% else %}
+							<span>
+								{% if user.affiliation %}{{ user.affiliation | truncate(50) }}{% endif %}
+							</span>
+							{% endif %}
+							{% endif %}
+						</td>
+						<td class="d-none d-md-table-cell d-lg-table-cell">
+							<span>
+								{% if user.country %}
+								<i class="flag-{{ user.country.lower() }}"></i>
+								{{ lookup_country_code(user.country) }}
+								{% endif %}
+							</span>
+						</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+	{% if users.pages > 1 %}
+	<div class="row">
+		<div class="col-md-12">
+			<div class="text-center">Page
+				<br>
+				{% if users.page != 1 %}
+				<a href="{{ prev_page }}">&lt;&lt;&lt;</a>
+				{% endif %}
+				<select class="page-select">
+					{% for page in range(1, users.pages + 1) %}
+					<option {% if users.page==page %}selected{% endif %}>{{ page }}</option>
+					{% endfor %}
+				</select>
+				{% if users.next_num %}
+				<a href="{{ next_page }}">&gt;&gt;&gt;</a>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+	{% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}

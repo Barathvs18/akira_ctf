@@ -1,0 +1,311 @@
+{% extends "base.html" %}
+
+{% block stylesheets %}
+<style>
+	/* ================================
+   User Profile – Japanese Glass Theme
+   ================================ */
+
+	/* Header */
+	.jumbotron {
+		background: transparent;
+		padding-top: 90px;
+		padding-bottom: 40px;
+	}
+
+	.jumbotron h1 {
+		font-family: 'Abril Fatface', serif;
+		letter-spacing: 0.08em;
+		color: #f8fafc;
+		text-align: center;
+	}
+
+	/* Sub headers */
+	.jumbotron h2,
+	.jumbotron h3 {
+		color: #e5e7eb;
+		text-align: center;
+	}
+
+	/* Badges */
+	.badge-primary,
+	.badge-secondary {
+		background: rgba(255, 111, 145, 0.25) !important;
+		border: 1px solid rgba(255, 111, 145, 0.45);
+		color: #fff;
+		backdrop-filter: blur(10px);
+	}
+
+	/* Place / score text */
+	.jumbotron small {
+		color: #9ca3af;
+		font-size: 0.75em;
+	}
+
+	/* External link icon */
+	.fa-external-link-alt {
+		color: #ff6f91;
+		transition: transform 0.2s ease, text-shadow 0.2s ease;
+	}
+
+	.fa-external-link-alt:hover {
+		transform: translateY(-2px);
+		text-shadow: 0 0 14px rgba(255, 111, 145, 0.6);
+	}
+
+	/* Section titles */
+	.container h3 {
+		font-family: 'Abril Fatface', serif;
+		letter-spacing: 0.06em;
+		color: #f8fafc;
+	}
+
+	/* Tables (Solves) */
+	.table {
+		background: rgba(15, 15, 25, 0.65);
+		backdrop-filter: blur(16px);
+		border-radius: 18px;
+		overflow: hidden;
+		color: #e5e7eb;
+	}
+
+	.table thead {
+		background: rgba(255, 255, 255, 0.06);
+	}
+
+	.table thead td {
+		color: #f8fafc;
+		font-weight: 600;
+	}
+
+	.table-striped tbody tr:nth-of-type(odd) {
+		background: rgba(255, 255, 255, 0.03);
+	}
+
+	.table td {
+		border-color: rgba(255, 255, 255, 0.08);
+	}
+
+	/* Table links */
+	.table a {
+		color: #ff6f91;
+		transition: all 0.2s ease;
+	}
+
+	.table a:hover {
+		text-decoration: none;
+		text-shadow: 0 0 10px rgba(255, 111, 145, 0.6);
+	}
+
+	/* Graph containers */
+	#keys-pie-graph,
+	#categories-pie-graph,
+	#score-graph {
+		background: rgba(15, 15, 25, 0.65);
+		backdrop-filter: blur(16px) saturate(150%);
+		-webkit-backdrop-filter: blur(16px) saturate(150%);
+		border-radius: 18px;
+		border: 1px solid rgba(255, 255, 255, 0.12);
+		box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7);
+		min-height: 280px;
+		margin-bottom: 30px;
+	}
+
+	/* Spinner */
+	.spinner {
+		color: #ff6f91;
+	}
+
+	/* Awards */
+	.award-icon {
+		color: #ff6f91;
+		text-shadow: 0 0 12px rgba(255, 111, 145, 0.6);
+	}
+
+	.col-md-3 p {
+		color: #e5e7eb;
+	}
+
+	/* Empty state */
+	.opacity-50 {
+		color: #9ca3af !important;
+	}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="jumbotron">
+	<div class="container">
+		<h1>{{ user.name }}</h1>
+
+		{% if user.team_id %}
+		<h2>
+			<a href="{{ url_for('teams.private') }}">
+				<span class="badge badge-secondary">
+					{{ user.team.name }}
+				</span>
+			</a>
+		</h2>
+		{% endif %}
+
+		{% if user.oauth_id %}
+		<a href="https://majorleaguecyber.org/u/{{ user.name }}">
+			<h3><span class="badge badge-primary">Official</span></h3>
+		</a>
+		{% endif %}
+
+		{% if user.affiliation %}
+		<h3 class="d-inline-block">
+			<span class="badge badge-primary">{{ user.affiliation }}</span>
+		</h3>
+		{% endif %}
+
+		{% if user.country %}
+		<h3 class="d-inline-block">
+			<span class="badge badge-primary">
+				<i class="flag-{{ user.country.lower() }}"></i>
+				{{ lookup_country_code(user.country) }}
+			</span>
+		</h3>
+		{% endif %}
+
+		{% for field in user.fields %}
+		<h3 class="d-inline-block">
+			{{ field.name }}: {{ field.value }}
+		</h3>
+		{% endfor %}
+
+		<div>
+			<h2 class="text-center">
+				{% if account.place %}
+				{{ account.place }} <small>place</small>
+				{% endif %}
+			</h2>
+			<h2 class="text-center">
+				{% if account %}
+				{{ account.score }} <small>points</small>
+				{% endif %}
+			</h2>
+		</div>
+
+		<div class="pt-3">
+			{% if user.website %}
+			<a href="{{ user.website }}" target="_blank" style="color: inherit;" rel="noopener">
+				<i class="fas fa-external-link-alt fa-2x px-2" data-toggle="tooltip" data-placement="top"
+					title="{{ user.website }}"></i>
+			</a>
+			{% endif %}
+		</div>
+	</div>
+</div>
+<div class="container">
+	{% include "components/errors.html" %}
+
+	{% set solves = user.solves %}
+	{% set awards = user.awards %}
+	{% if solves or awards %}
+	<div class="row">
+		<div class="col-md-6 d-none d-md-block d-lg-block">
+			<div id="keys-pie-graph" class="d-flex align-items-center">
+				<div class="text-center w-100">
+					<i class="fas fa-circle-notch fa-spin fa-3x fa-fw spinner"></i>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6 d-none d-md-block d-lg-block">
+			<div id="categories-pie-graph" class="d-flex align-items-center">
+				<div class="text-center w-100">
+					<i class="fas fa-circle-notch fa-spin fa-3x fa-fw spinner"></i>
+				</div>
+			</div>
+		</div>
+		<br class="clearfix">
+		<div class="col-md-12 d-none d-md-block d-lg-block">
+			<div id="score-graph" class="w-100 d-flex align-items-center">
+				<div class="text-center w-100">
+					<i class="fas fa-circle-notch fa-spin fa-3x fa-fw spinner"></i>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="clearfix"></div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<h3>Awards</h3>
+		</div>
+		{% for award in awards %}
+		<div class="col-md-3 col-sm-6">
+			<p class="text-center">
+				<i class="award-icon award-{{ award.icon }} fa-2x"></i>
+				<br>
+				<strong>{{ award.name }}</strong>
+			</p>
+			<p class="text-center">{{ award.category or ""}}</p>
+			<p class="text-center">{{ award.description or ""}}</p>
+			<p class="text-center">{{ award.value }}</p>
+		</div>
+		{% endfor %}
+	</div>
+
+	<br>
+
+	<div class="row">
+		<div class="col-md-12">
+			<h3>Solves</h3>
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<td><b>Challenge</b></td>
+						<td class="d-none d-md-block d-lg-block"><b>Category</b></td>
+						<td><b>Value</b></td>
+						<td><b>Time</b></td>
+					</tr>
+				</thead>
+				<tbody>
+					{% for solve in solves %}
+					<tr>
+						<td>
+							<a
+								href="{{ url_for('challenges.listing') }}#{{ solve.challenge.name }}-{{ solve.challenge.id }}">
+								{{ solve.challenge.name }}
+							</a>
+						</td>
+						<td class="d-none d-md-block d-lg-block">{{ solve.challenge.category }}</td>
+						<td>{{ solve.challenge.value }}</td>
+						<td class="solve-time">
+							<span data-time="{{ solve.date | isoformat }}"></span>
+						</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+	{% else %}
+	<div class="row min-vh-25">
+		<h3 class="opacity-50 text-center w-100 justify-content-center align-self-center">
+			No solves yet
+		</h3>
+	</div>
+	{% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+	var stats_data = {{ {
+		'type': 'user',
+		'id': user.id,
+		'name': user.name,
+		'account_id': 'me',
+	} | tojson }};
+</script>
+<script defer src="{{ url_for('views.themes', path='js/echarts.bundle.js') }}"></script>
+<script defer src="{{ url_for('views.themes', path='js/graphs.js') }}"></script>
+{% endblock %}
+
+{% block entrypoint %}
+<script defer src="{{ url_for('views.themes', path='js/pages/stats.js') }}"></script>
+{% endblock %}

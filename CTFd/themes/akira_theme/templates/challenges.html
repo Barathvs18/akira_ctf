@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block stylesheets %}
+<style>
+	/* ================================
+   Challenges Board – Glass Container
+   ================================ */
+
+	/* Header */
+	.jumbotron {
+		background: transparent;
+		padding-top: 90px;
+		padding-bottom: 40px;
+	}
+
+	.jumbotron h1 {
+		font-family: 'Abril Fatface', serif;
+		letter-spacing: 0.08em;
+		color: #f8fafc;
+		text-align: center;
+	}
+
+	/* 🔥 MAIN GLASS CONTAINER */
+	#challenges-board {
+		background: rgba(15, 15, 25, 0.65);
+		backdrop-filter: blur(18px) saturate(150%);
+		-webkit-backdrop-filter: blur(18px) saturate(150%);
+		border-radius: 22px;
+		border: 1px solid rgba(255, 255, 255, 0.12);
+		box-shadow: 0 12px 50px rgba(0, 0, 0, 0.8);
+		padding: 35px 30px;
+		margin-top: 25px;
+		margin-bottom: 40px;
+		color: #f8fafc;
+	}
+
+	/* Loading state stays centered */
+	#challenges-board .min-vh-50 {
+		background: transparent;
+	}
+
+	/* Spinner */
+	.spinner {
+		color: #ff6f91;
+	}
+
+	/* Challenge cards */
+	#challenges-board .card {
+		background: rgba(20, 20, 30, 0.7);
+		backdrop-filter: blur(14px);
+		border-radius: 16px;
+		border: 1px solid rgba(255, 255, 255, 0.1);
+		box-shadow: 0 8px 28px rgba(0, 0, 0, 0.65);
+		color: #e5e7eb;
+		transition: transform 0.25s ease, box-shadow 0.25s ease;
+	}
+
+	#challenges-board .card:hover {
+		transform: translateY(-3px);
+		box-shadow: 0 14px 45px rgba(0, 0, 0, 0.85);
+	}
+
+	/* Challenge title */
+	#challenges-board .card-title {
+		font-family: 'Abril Fatface', serif;
+		letter-spacing: 0.05em;
+		color: #f8fafc;
+	}
+
+	/* Muted text */
+	#challenges-board .text-muted {
+		color: #9ca3af !important;
+	}
+
+	/* Solved challenge */
+	#challenges-board .solved-challenge {
+		background: rgba(80, 200, 120, 0.18) !important;
+		border-color: rgba(80, 200, 120, 0.45) !important;
+		box-shadow: 0 0 20px rgba(80, 200, 120, 0.45);
+	}
+
+	/* Badges */
+	#challenges-board .badge {
+		background: rgba(255, 111, 145, 0.25);
+		border: 1px solid rgba(255, 111, 145, 0.45);
+		color: #fff;
+	}
+</style>
+{% endblock %}
+
+
+{% block content %}
+<div class="jumbotron">
+	<div class="container">
+		<h1>Challenges</h1>
+	</div>
+</div>
+
+<div class="modal fade" id="challenge-window" tabindex="-1" role="dialog">
+</div>
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			{% include "components/errors.html" %}
+		</div>
+	</div>
+
+	<div id='challenges-board'>
+		<div class="min-vh-50 d-flex align-items-center">
+			<div class="text-center w-100">
+				<i class="fas fa-circle-notch fa-spin fa-3x fa-fw spinner"></i>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}
+
+{% block entrypoint %}
+<script defer src="{{ url_for('views.themes', path='js/pages/challenges.js') }}"></script>
+{% endblock %}

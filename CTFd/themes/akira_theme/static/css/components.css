@@ -1,0 +1,38 @@
+/* Glassmorphism Navbar – Japanese Dark Theme */
+.glass-navbar {
+  background: rgba(15, 15, 25, 0.65) !important;
+  backdrop-filter: blur(16px) saturate(150%);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.65);
+}
+
+/* Brand */
+.glass-navbar .navbar-brand {
+  font-family: 'Abril Fatface', serif;
+  letter-spacing: 0.08em;
+  color: #f8fafc;
+}
+
+/* Nav links */
+.glass-navbar .nav-link {
+  font-family: 'Inter', system-ui, sans-serif;
+  color: #e5e7eb !important;
+  transition: all 0.25s ease;
+}
+
+/* Hover / Active */
+.glass-navbar .nav-link:hover,
+.glass-navbar .nav-link.active {
+  color: var(--accent-color) !important;
+  text-shadow: 0 0 12px rgba(255, 111, 145, 0.45);
+}
+
+/* Toggler (mobile) */
+.glass-navbar .navbar-toggler {
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.glass-navbar .navbar-toggler-icon {
+  filter: drop-shadow(0 0 6px rgba(255, 111, 145, 0.4));
+}

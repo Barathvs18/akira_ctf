@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+
+{% block stylesheets %}
+<style>
+	/* ================================
+   Create Team – Japanese Glass Theme
+   ================================ */
+
+	/* Header */
+	.jumbotron {
+		background: transparent;
+		padding-top: 90px;
+		padding-bottom: 40px;
+	}
+
+	.jumbotron h1 {
+		font-family: 'Abril Fatface', serif;
+		letter-spacing: 0.08em;
+		color: #f8fafc;
+		text-align: center;
+	}
+
+	/* Main glass card */
+	.col-md-6.offset-md-3 {
+		background: rgba(15, 15, 25, 0.65);
+		backdrop-filter: blur(16px) saturate(150%);
+		-webkit-backdrop-filter: blur(16px) saturate(150%);
+		border-radius: 18px;
+		border: 1px solid rgba(255, 255, 255, 0.12);
+		box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7);
+		padding: 35px 30px;
+	}
+
+	/* Labels */
+	.form-group b {
+		color: #f8fafc;
+	}
+
+	/* Inputs */
+	.form-control {
+		background: rgba(20, 20, 30, 0.8);
+		border: 1px solid rgba(255, 255, 255, 0.15);
+		color: #f8fafc;
+	}
+
+	.form-control::placeholder {
+		color: #9ca3af;
+	}
+
+	.form-control:focus {
+		background: rgba(20, 20, 30, 0.95);
+		border-color: #ff6f91;
+		box-shadow: 0 0 0 0.15rem rgba(255, 111, 145, 0.25);
+		color: #fff;
+	}
+
+	/* Helper text */
+	.col-md-12 p {
+		color: #e5e7eb;
+		line-height: 1.6;
+	}
+
+	/* Submit button – Sakura Glass */
+	.btn-success {
+		background: rgba(255, 111, 145, 0.25) !important;
+		border: 1px solid rgba(255, 111, 145, 0.45) !important;
+		color: #fff !important;
+		backdrop-filter: blur(10px);
+		font-family: 'Inter', system-ui, sans-serif;
+		font-weight: 500;
+		letter-spacing: 0.05em;
+		transition: all 0.25s ease;
+	}
+
+	.btn-success:hover {
+		background: rgba(255, 111, 145, 0.45) !important;
+		box-shadow: 0 0 20px rgba(255, 111, 145, 0.6);
+		transform: translateY(-2px);
+	}
+
+	/* Error messages */
+	.alert {
+		background: rgba(255, 50, 80, 0.2);
+		border: 1px solid rgba(255, 50, 80, 0.4);
+		color: #fff;
+	}
+</style>
+{% endblock %}
+
+
+{% block content %}
+<div class="jumbotron">
+	<div class="container">
+		<h1>Create Team</h1>
+	</div>
+</div>
+<div class="container">
+	<div class="row">
+		<div class="col-md-6 offset-md-3">
+			{% include "components/errors.html" %}
+
+			{% with form = Forms.teams.TeamRegisterForm() %}
+			{% from "macros/forms.html" import render_extra_fields %}
+			<form method="POST">
+				<div class="form-group">
+					<b>{{ form.name.label }}</b>
+					{{ form.name(class="form-control") }}
+				</div>
+				<div class="form-group">
+					<b>{{ form.password.label }}</b>
+					{{ form.password(class="form-control") }}
+				</div>
+
+				{{ render_extra_fields(form.extra) }}
+
+				<div class="row pt-3">
+					<div class="col-md-12">
+						<p>After creating your team, share the team name and password with your teammates so they can
+							join your team.</p>
+						{{ form.submit(class="btn btn-success float-right") }}
+					</div>
+				</div>
+				{{ form.nonce() }}
+			</form>
+			{% endwith %}
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}
