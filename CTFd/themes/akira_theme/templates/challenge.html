@@ -1,16 +1,16 @@
-<div class="modal-dialog" role="document">
+<div class="modal-dialog" role="document"  style="color: black;">
 	<div class="modal-content">
 		<div class="modal-body">
 			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 				<span aria-hidden="true">&times;</span>
 			</button>
-			<ul class="nav nav-tabs">
+			<ul class="nav nav-tabs"style="color: black;">
 				<li class="nav-item">
-					<a class="nav-link active" href="#challenge">Challenge</a>
+					<a class="nav-link active" href="#challenge"  style="color: black;">Challenge</a>
 				</li>
 				{% block solves %}
 					<li class="nav-item">
-						<a class="nav-link challenge-solves" href="#solves">
+						<a class="nav-link challenge-solves" href="#solves"  style="color: black;">
 							{% if solves != None %}
 								{{ solves }} {% if solves > 1 %}Solves{% else %}Solves{% endif %}
 							{% endif %}
@@ -18,7 +18,7 @@
 					</li>
 				{% endblock %}
 			</ul>
-			<div role="tabpanel">
+			<div role="tabpanel"  style="color: black;">
 				<div class="tab-content">
 					<div role="tabpanel" class="tab-pane fade show active" id="challenge">
 						<h2 class='challenge-name text-center pt-3'>
@@ -36,7 +36,7 @@
 							{% endblock %}
 						</div>
 
-						<span class="challenge-desc">{% block description %}{{ challenge.html }}{% endblock %}</span>
+						<span class="challenge-desc" style="color: black;">{% block description %}{{ challenge.html }}{% endblock %}</span>
 
 						<span class="challenge-connection-info">
 							{% block connection_info %}
