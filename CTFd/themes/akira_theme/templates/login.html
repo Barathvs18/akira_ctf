@@ -1,15 +1,98 @@
 {% extends "base.html" %}
 
 {% block stylesheets %}
+<style>
+	/* ===== Login Page Glass Style ===== */
+
+	.jumbotron {
+		background: transparent;
+		padding-top: 80px;
+		padding-bottom: 40px;
+	}
+
+	.jumbotron h1 {
+		text-align: center;
+		font-family: 'Abril Fatface', serif;
+		font-weight: 400;
+		letter-spacing: 0.05em;
+	}
+
+	/* Glass login card */
+	.login-glass {
+		background: rgba(15, 15, 25, 0.65);
+		backdrop-filter: blur(14px) saturate(140%);
+		-webkit-backdrop-filter: blur(14px) saturate(140%);
+		border-radius: 16px;
+		border: 1px solid rgba(255, 255, 255, 0.12);
+		box-shadow: 0 10px 40px rgba(0, 0, 0, 0.65);
+		padding: 32px;
+	}
+
+	/* Inputs */
+	.login-glass input.form-control {
+		background: rgba(20, 20, 30, 0.75);
+		border: 1px solid rgba(255, 255, 255, 0.15);
+		color: #f8fafc;
+	}
+
+	.login-glass input.form-control:focus {
+		background: rgba(20, 20, 30, 0.9);
+		border-color: #ff6f91;
+		box-shadow: 0 0 0 0.15rem rgba(255, 111, 145, 0.35);
+		color: #fff;
+	}
+
+	/* Labels */
+	.login-glass label,
+	.login-glass b {
+		font-weight: 500;
+		letter-spacing: 0.02em;
+	}
+
+	/* Buttons */
+	.login-glass .btn-primary {
+		background: linear-gradient(135deg, #ff6f91, #ff4f7a);
+		border: none;
+		box-shadow: 0 6px 18px rgba(255, 111, 145, 0.4);
+	}
+
+	.login-glass .btn-primary:hover {
+		transform: translateY(-1px);
+		box-shadow: 0 10px 28px rgba(255, 111, 145, 0.6);
+	}
+
+	/* Links */
+	.login-glass a {
+		color: #f8fafc;
+		opacity: 0.75;
+	}
+
+	.login-glass a:hover {
+		color: #ff6f91;
+		opacity: 1;
+		text-shadow: 0 0 6px rgba(255, 111, 145, 0.5);
+	}
+
+	/* MLC Button */
+	.login-glass .btn-secondary {
+		background: rgba(30, 30, 45, 0.8);
+		border: 1px solid rgba(255, 255, 255, 0.15);
+	}
+
+	.login-glass .btn-secondary:hover {
+		background: rgba(40, 40, 60, 0.9);
+		color: #ff6f91;
+	}
+</style>
 {% endblock %}
 
 {% block content %}
-<div class="jumbotron">
+<div class="jumbotron" style="padding: 20px;">
 	<div class="container">
 		<h1>Login</h1>
 	</div>
 </div>
-<div class="container">
+<div class="container" style="padding: 20px;">
 	<div class="row">
 		<div class="col-md-6 offset-md-3">
 			{% include "components/errors.html" %}
@@ -34,9 +117,9 @@
 				</div>
 				<div class="row pt-3">
 					<div class="col-md-6">
-						<a class="float-left align-text-to-button" href="{{ url_for('auth.reset_password') }}">
+						<!-- <a class="float-left align-text-to-button" href="{{ url_for('auth.reset_password') }}">
 							Forgot your password?
-						</a>
+						</a> -->
 					</div>
 					<div class="col-md-6">
 						{{ form.submit(class="btn btn-md btn-primary btn-outlined float-right") }}
@@ -52,4 +135,3 @@
 
 {% block scripts %}
 {% endblock %}
-
