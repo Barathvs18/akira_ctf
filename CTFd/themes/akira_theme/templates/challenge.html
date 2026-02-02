@@ -176,7 +176,7 @@
 				</li>
 				{% endblock %}
 			</ul>
-			<div role="tabpanel" style="color: black;">
+			<div role="tabpanel" style="color: rgb(252, 251, 251);">
 				<div class="tab-content">
 					<div role="tabpanel" class="tab-pane fade show active" id="challenge">
 						<h2 class='challenge-name text-center pt-3'>
@@ -194,7 +194,7 @@
 							{% endblock %}
 						</div>
 
-						<span class="challenge-desc" style="color: black;">{% block description %}{{ challenge.html }}{%
+						<span class="challenge-desc" style="color: rgb(255, 255, 255);">{% block description %}{{ challenge.html }}{%
 							endblock %}</span>
 
 						<span class="challenge-connection-info">
@@ -268,8 +268,8 @@
 						<div class="row submit-row">
 							<div class="col-md-9 form-group">
 								{% block input %}
-								<input id="challenge-id" class="challenge-id" type="hidden" value="{{ challenge.id }}">
-								<input id="challenge-input" class="challenge-input" type="text" name="answer"
+								<input id="challenge-id" class="challenge-id" type="hidden" value="{{ challenge.id }}" >
+								<input id="challenge-input"style="color: white;" class="challenge-input" type="text" name="answer"
 									placeholder="Flag" />
 								{% endblock %}
 							</div>
