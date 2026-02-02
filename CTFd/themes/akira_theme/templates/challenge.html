@@ -1,24 +1,182 @@
-<div class="modal-dialog" role="document"  style="color: black;">
+<style>
+	/* ================================
+   Challenge Modal – Glassmorphism
+   ================================ */
+
+	/* Modal shell */
+	.modal-content {
+		background: rgba(15, 15, 25, 0.75);
+		backdrop-filter: blur(20px) saturate(160%);
+		-webkit-backdrop-filter: blur(20px) saturate(160%);
+		border-radius: 22px;
+		border: 1px solid rgba(255, 255, 255, 0.12);
+		box-shadow: 0 18px 60px rgba(0, 0, 0, 0.9);
+		color: #f8fafc;
+	}
+
+	/* Close button */
+	.modal-body .close {
+		color: #ff6f91;
+		opacity: 0.9;
+		text-shadow: none;
+	}
+
+	.modal-body .close:hover {
+		opacity: 1;
+	}
+
+	/* ================================
+   Tabs
+   ================================ */
+	.nav-tabs {
+		border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+	}
+
+	.nav-tabs .nav-link {
+		background: transparent;
+		border: none;
+		color: #9ca3af;
+		font-weight: 500;
+		transition: all 0.25s ease;
+	}
+
+	.nav-tabs .nav-link.active {
+		color: #ff6f91;
+		background: rgba(255, 111, 145, 0.12);
+		border-radius: 12px;
+	}
+
+	/* ================================
+   Challenge Title & Value
+   ================================ */
+	.challenge-name {
+		font-family: 'Abril Fatface', serif;
+		letter-spacing: 0.08em;
+		color: #ffffff;
+	}
+
+	.challenge-value {
+		color: #ff6f91;
+		font-weight: 600;
+	}
+
+	/* ================================
+   Tags
+   ================================ */
+	.challenge-tag {
+		background: rgba(255, 111, 145, 0.25);
+		border: 1px solid rgba(255, 111, 145, 0.45);
+		color: #fff;
+		border-radius: 10px;
+		padding: 5px 10px;
+		margin: 3px;
+	}
+
+	/* ================================
+   Description
+   ================================ */
+	.challenge-desc {
+		color: #e5e7eb !important;
+		line-height: 1.6;
+	}
+
+	/* ================================
+   Hint & File Buttons
+   ================================ */
+	.btn-info {
+		background: rgba(20, 20, 30, 0.7);
+		border: 1px solid rgba(255, 255, 255, 0.12);
+		color: #f8fafc;
+		backdrop-filter: blur(12px);
+		transition: all 0.25s ease;
+	}
+
+	.btn-info:hover {
+		background: rgba(255, 111, 145, 0.25);
+		border-color: rgba(255, 111, 145, 0.5);
+		color: #fff;
+	}
+
+	/* ================================
+   Input & Submit
+   ================================ */
+	.challenge-input {
+		width: 100%;
+		background: rgba(20, 20, 30, 0.65);
+		border: 1px solid rgba(255, 255, 255, 0.15);
+		border-radius: 14px;
+		padding: 12px 14px;
+		color: #f8fafc;
+	}
+
+	.challenge-input::placeholder {
+		color: #9ca3af;
+	}
+
+	.challenge-submit {
+		width: 100%;
+		background: linear-gradient(135deg, #ff6f91, #ff8fab);
+		border: none;
+		border-radius: 14px;
+		color: #fff;
+		font-weight: 600;
+		padding: 12px;
+		box-shadow: 0 6px 20px rgba(255, 111, 145, 0.6);
+		transition: transform 0.2s ease, box-shadow 0.2s ease;
+	}
+
+	.challenge-submit:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 10px 30px rgba(255, 111, 145, 0.9);
+	}
+
+	/* ================================
+   Notification
+   ================================ */
+	#result-notification {
+		background: rgba(20, 20, 30, 0.85);
+		border: 1px solid rgba(255, 255, 255, 0.15);
+		color: #fff;
+		border-radius: 14px;
+	}
+
+	/* ================================
+   Solves Table
+   ================================ */
+	.table {
+		color: #e5e7eb;
+	}
+
+	.table thead td {
+		border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+		color: #ff6f91;
+	}
+
+	.table-striped tbody tr:nth-of-type(odd) {
+		background: rgba(255, 255, 255, 0.03);
+	}
+</style>
+<div class="modal-dialog" role="document" style="color: white;">
 	<div class="modal-content">
 		<div class="modal-body">
 			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 				<span aria-hidden="true">&times;</span>
 			</button>
-			<ul class="nav nav-tabs"style="color: black;">
+			<ul class="nav nav-tabs" style="color:white;">
 				<li class="nav-item">
-					<a class="nav-link active" href="#challenge"  style="color: black;">Challenge</a>
+					<a class="nav-link active" href="#challenge" style="color: white;">Challenge</a>
 				</li>
 				{% block solves %}
-					<li class="nav-item">
-						<a class="nav-link challenge-solves" href="#solves"  style="color: black;">
-							{% if solves != None %}
-								{{ solves }} {% if solves > 1 %}Solves{% else %}Solves{% endif %}
-							{% endif %}
-						</a>
-					</li>
+				<li class="nav-item">
+					<a class="nav-link challenge-solves" href="#solves" style="color: white;">
+						{% if solves != None %}
+						{{ solves }} {% if solves > 1 %}Solves{% else %}Solves{% endif %}
+						{% endif %}
+					</a>
+				</li>
 				{% endblock %}
 			</ul>
-			<div role="tabpanel"  style="color: black;">
+			<div role="tabpanel" style="color: black;">
 				<div class="tab-content">
 					<div role="tabpanel" class="tab-pane fade show active" id="challenge">
 						<h2 class='challenge-name text-center pt-3'>
@@ -30,68 +188,70 @@
 
 						<div class="challenge-tags text-center">
 							{% block tags %}
-								{% for tag in tags %}
-									<span class='badge badge-info challenge-tag'>{{ tag }}</span>
-								{% endfor %}
+							{% for tag in tags %}
+							<span class='badge badge-info challenge-tag'>{{ tag }}</span>
+							{% endfor %}
 							{% endblock %}
 						</div>
 
-						<span class="challenge-desc" style="color: black;">{% block description %}{{ challenge.html }}{% endblock %}</span>
+						<span class="challenge-desc" style="color: black;">{% block description %}{{ challenge.html }}{%
+							endblock %}</span>
 
 						<span class="challenge-connection-info">
 							{% block connection_info %}
-								{% set conn = challenge.connection_info %}
-								{% if not conn %}
-								{% elif conn.startswith("http") %}
-									{{ conn | urlize(target="_blank") }}
-								{% else %}
-									<code>{{ conn }}</code>
-								{% endif %}
+							{% set conn = challenge.connection_info %}
+							{% if not conn %}
+							{% elif conn.startswith("http") %}
+							{{ conn | urlize(target="_blank") }}
+							{% else %}
+							<code>{{ conn }}</code>
+							{% endif %}
 							{% endblock %}
 						</span>
 
 						<div class="challenge-hints hint-row row">
 							{% for hint in hints %}
-								<div class='col-md-12 hint-button-wrapper text-center mb-3'>
-									<a class="btn btn-info btn-hint btn-block load-hint" href="javascript:;" data-hint-id="{{ hint.id }}">
-										{% if hint.content %}
-											<small>
-												View Hint
-											</small>
-										{% else %}
-											{% if hint.cost %}
-												<small>
-													Unlock Hint for {{ hint.cost }} points
-												</small>
-											{% else %}
-												<small>
-													View Hint
-												</small>
-											{% endif %}
-										{% endif %}
-									</a>
-								</div>
+							<div class='col-md-12 hint-button-wrapper text-center mb-3'>
+								<a class="btn btn-info btn-hint btn-block load-hint" href="javascript:;"
+									data-hint-id="{{ hint.id }}">
+									{% if hint.content %}
+									<small>
+										View Hint
+									</small>
+									{% else %}
+									{% if hint.cost %}
+									<small>
+										Unlock Hint for {{ hint.cost }} points
+									</small>
+									{% else %}
+									<small>
+										View Hint
+									</small>
+									{% endif %}
+									{% endif %}
+								</a>
+							</div>
 							{% endfor %}
 						</div>
 
 						<div class="row challenge-files text-center pb-3">
 							{% for file in files %}
-								<div class='col-md-4 col-sm-4 col-xs-12 file-button-wrapper d-block'>
-									<a class='btn btn-info btn-file mb-1 d-inline-block px-2 w-100 text-truncate'
-									   href='{{ file }}'>
-										<i class="fas fa-download"></i>
-										<small>
-											{% set segments = file.split('/') %}
-											{% set file = segments | last %}
-											{% set token = file.split('?') | last %}
-											{% if token %}
-												{{ file | replace("?" + token, "") }}
-											{% else %}
-												{{ file }}
-											{% endif %}
-										</small>
-									</a>
-								</div>
+							<div class='col-md-4 col-sm-4 col-xs-12 file-button-wrapper d-block'>
+								<a class='btn btn-info btn-file mb-1 d-inline-block px-2 w-100 text-truncate'
+									href='{{ file }}'>
+									<i class="fas fa-download"></i>
+									<small>
+										{% set segments = file.split('/') %}
+										{% set file = segments | last %}
+										{% set token = file.split('?') | last %}
+										{% if token %}
+										{{ file | replace("?" + token, "") }}
+										{% else %}
+										{{ file }}
+										{% endif %}
+									</small>
+								</a>
+							</div>
 							{% endfor %}
 						</div>
 
@@ -108,8 +268,9 @@
 						<div class="row submit-row">
 							<div class="col-md-9 form-group">
 								{% block input %}
-									<input id="challenge-id" class="challenge-id" type="hidden" value="{{ challenge.id }}">
-									<input id="challenge-input" class="challenge-input" type="text" name="answer" placeholder="Flag"/>
+								<input id="challenge-id" class="challenge-id" type="hidden" value="{{ challenge.id }}">
+								<input id="challenge-input" class="challenge-input" type="text" name="answer"
+									placeholder="Flag" />
 								{% endblock %}
 							</div>
 							<div class="col-md-3 form-group key-submit">
@@ -124,7 +285,7 @@
 						<div class="row notification-row">
 							<div class="col-md-12">
 								<div id="result-notification" class="alert alert-dismissable text-center w-100"
-									 role="alert" style="display: none;">
+									role="alert" style="display: none;">
 									<strong id="result-message"></strong>
 								</div>
 							</div>
@@ -136,12 +297,12 @@
 							<div class="col-md-12">
 								<table class="table table-striped text-center">
 									<thead>
-									<tr>
-										<td><b>Name</b>
-										</td>
-										<td><b>Date</b>
-										</td>
-									</tr>
+										<tr>
+											<td><b>Name</b>
+											</td>
+											<td><b>Date</b>
+											</td>
+										</tr>
 									</thead>
 									<tbody id="challenge-solves-names">
 									</tbody>

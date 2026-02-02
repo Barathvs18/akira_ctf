@@ -3,6 +3,9 @@ import echarts from "echarts/dist/echarts-en.common";
 import dayjs from "dayjs";
 import { cumulativeSum, colorHash } from "./utils";
 
+
+
+
 const graph_configs = {
   score_graph: {
     format: (type, id, name, _account_id, responses) => {
@@ -52,7 +55,7 @@ const graph_configs = {
             filterMode: "filter",
             height: 20,
             top: 35,
-            fillerColor: "rgba(233, 236, 241, 0.4)"
+            fillerColor: "rgba(251, 252, 249, 1)"
           }
         ],
         series: []

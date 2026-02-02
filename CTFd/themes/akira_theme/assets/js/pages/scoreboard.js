@@ -47,7 +47,10 @@ const buildGraphData = () => {
     const option = {
       title: {
         left: "center",
-        text: "Top 10 " + (CTFd.config.userMode === "teams" ? "Teams" : "Users")
+        text: "Top 10 " + (CTFd.config.userMode === "teams" ? "Teams" : "Users"),
+        textStyle: {
+          color: "#ffffff"
+        }
       },
       tooltip: {
         trigger: "axis",
@@ -60,7 +63,10 @@ const buildGraphData = () => {
         orient: "horizontal",
         align: "left",
         bottom: 35,
-        data: []
+        data: [],
+        textStyle: {
+          color: "#ffffff"
+        }
       },
       toolbox: {
         feature: {
@@ -77,12 +83,33 @@ const buildGraphData = () => {
         {
           type: "time",
           boundaryGap: false,
-          data: []
+          data: [],
+          axisLabel: {
+            color: "#ffffff"
+          },
+          axisLine: {
+            lineStyle: {
+              color: "#ffffff"
+            }
+          }
         }
       ],
       yAxis: [
         {
-          type: "value"
+          type: "value",
+          axisLabel: {
+            color: "#ffffff"
+          },
+          axisLine: {
+            lineStyle: {
+              color: "#ffffff"
+            }
+          },
+          splitLine: {
+            lineStyle: {
+              color: "rgba(255, 255, 255, 0.2)"
+            }
+          }
         }
       ],
       dataZoom: [
@@ -93,7 +120,10 @@ const buildGraphData = () => {
           filterMode: "filter",
           height: 20,
           top: 35,
-          fillerColor: "rgba(233, 236, 241, 0.4)"
+          fillerColor: "rgba(233, 236, 241, 0.4)",
+          textStyle: {
+            color: "#ffffff"
+          }
         }
       ],
       series: []
@@ -109,7 +139,7 @@ const buildGraphData = () => {
       }
 
       const total_scores = cumulativeSum(team_score);
-      var scores = times.map(function(e, i) {
+      var scores = times.map(function (e, i) {
         return [e, total_scores[i]];
       });
 
@@ -151,7 +181,7 @@ const createGraph = () => {
     let chart = echarts.init(document.querySelector("#score-graph"));
     chart.setOption(option);
 
-    $(window).on("resize", function() {
+    $(window).on("resize", function () {
       if (chart != null && chart != undefined) {
         chart.resize();
       }

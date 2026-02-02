@@ -65,18 +65,18 @@
 
 	#scoreboard .table td,
 	#scoreboard .table th {
-		border-color: rgba(255, 255, 255, 0.08);
+		border-color: rgba(247, 247, 247, 0.08);
 	}
 
 	/* Place number */
 	#scoreboard th[scope="row"] {
-		color: #ff6f91;
+		color: #f5f5f5;
 		font-weight: 600;
 	}
 
 	/* Links */
 	#scoreboard a {
-		color: #ff6f91;
+		color: #fcf9f9;
 		transition: all 0.2s ease;
 	}
 
@@ -97,6 +97,31 @@
 		border: 1px solid rgba(255, 50, 80, 0.4);
 		color: #fff;
 	}
+
+	/* Force white text on ECharts graph */
+	#score-graph text,
+	#score-graph tspan,
+	#score-graph text[fill],
+	#score-graph tspan[fill],
+	#score-graph [class*="echarts"] text,
+	#score-graph [class*="echarts"] tspan,
+	#score-graph canvas+div text,
+	#score-graph canvas+div tspan {
+		fill: #ffffff !important;
+		color: #ffffff !important;
+	}
+
+	/* Target ECharts tooltip and legend text */
+	#score-graph .echarts-tooltip,
+	#score-graph .echarts-tooltip * {
+		color: #ffffff !important;
+	}
+
+	/* Additional specificity for SVG text elements */
+	div#score-graph text,
+	div#score-graph tspan {
+		fill: #ffffff !important;
+	}
 </style>
 {% endblock %}
 
@@ -107,7 +132,7 @@
 		<h1>Scoreboard</h1>
 	</div>
 </div>
-<div class="container">
+<div class="container" style="color: white;">
 	{% include "components/errors.html" %}
 
 	<div id="score-graph" class="row d-flex align-items-center">
@@ -115,9 +140,11 @@
 			<i class="fas fa-circle-notch fa-spin fa-3x fa-fw spinner"></i>
 		</div>
 	</div>
+	<div>
 
-	{% cache 60, CacheKeys.PUBLIC_SCOREBOARD_TABLE %}
-	{% if standings %}
+		{% cache 60, CacheKeys.PUBLIC_SCOREBOARD_TABLE %}
+		{% if standings %}
+	</div>
 	<div id="scoreboard" class="row">
 		<div class="col-md-12">
 			<table class="table table-striped">
@@ -128,7 +155,7 @@
 						<td scope="col"><b>Score</b></td>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody style="color: white;">
 					{% for standing in standings %}
 					<tr>
 						<th scope="row" class="text-center">{{ loop.index }}</th>
@@ -167,4 +194,25 @@
 
 {% block entrypoint %}
 <script defer src="{{ url_for('views.themes', path='js/pages/scoreboard.js') }}"></script>
+<script>
+	// Force white text colors on the score graph after chart loads
+	document.addEventListener('DOMContentLoaded', function () {
+		setTimeout(function () {
+			var chartDom = document.querySelector('#score-graph');
+			if (chartDom && typeof echarts !== 'undefined') {
+				var chart = echarts.getInstanceByDom(chartDom);
+				if (chart) {
+					var currentOpt = chart.getOption();
+					chart.setOption({
+						title: { textStyle: { color: '#ffffff' } },
+						legend: { textStyle: { color: '#ffffff' } },
+						xAxis: [{ axisLabel: { color: '#ffffff' }, axisLine: { lineStyle: { color: '#ffffff' } } }],
+						yAxis: [{ axisLabel: { color: '#ffffff' }, axisLine: { lineStyle: { color: '#ffffff' } }, splitLine: { lineStyle: { color: 'rgba(255, 255, 255, 0.2)' } } }],
+						dataZoom: [{ textStyle: { color: '#ffffff' } }]
+					});
+				}
+			}
+		}, 500);
+	});
+</script>
 {% endblock %}
